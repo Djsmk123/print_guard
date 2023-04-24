@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "234441083587",
+    "project_id": "print-f3170",
+    "storage_bucket": "print-f3170.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234441083587:android:9d4cc00b150f2cde3ab076",
+        "android_client_info": {
+          "package_name": "com.example.printsecure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234441083587-m20buh8lmr5j77ko1m49vpuujgm1ld04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.printsecure",
+            "certificate_hash": "a9045ed3959a122c17519880fbd72109afe802ee"
+          }
+        },
+        {
+          "client_id": "234441083587-f37ooju9mqkg6t3vatmkhdbb9824fhli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAveXm2-Y0j6Hkjmcsv1tY0YQ37tTtrYzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234441083587-f37ooju9mqkg6t3vatmkhdbb9824fhli.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "234441083587-uctff68afsdec7bbbcdtgd3cansj4j75.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.printsecure"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
