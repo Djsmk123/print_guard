@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:printsecure/screens/constant.dart';
 
 class selectedImgPage extends StatefulWidget {
   const selectedImgPage({Key? key}) : super(key: key);
@@ -23,8 +24,8 @@ class _selectedImgPageState extends State<selectedImgPage> {
           padding: EdgeInsets.all(8.0),
           child: Icon(Icons.menu),
         ),
-        title: const Text(
-          "Print\n Secure",
+        title: Text(
+          appname,
           textAlign: TextAlign.center,
         ),
         centerTitle: true,

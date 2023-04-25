@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:printsecure/screens/constant.dart';
 import 'package:printsecure/widgets/drawer_vendor.dart';
 
 class homePageVendor extends StatefulWidget {
@@ -22,8 +23,8 @@ class _homePageVendorState extends State<homePageVendor> {
           padding: EdgeInsets.all(8.0),
           child: Icon(Icons.menu),
         ),
-        title: const Text(
-          "Print\n Secure",
+        title: Text(
+          appname,
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
@@ -45,7 +46,7 @@ class _homePageVendorState extends State<homePageVendor> {
       //           return itemsData[index];
       //         })
       //         ),
-              
+
       drawer: const MyDrawer_vendor(),
     );
   }

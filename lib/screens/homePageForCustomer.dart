@@ -1,4 +1,9 @@
+// ignore_for_file: camel_case_types, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:printsecure/screens/constant.dart';
+import 'package:printsecure/screens/view_share_documents.dart';
 import 'package:printsecure/widgets/drawer.dart';
 
 class homePageCustomer extends StatefulWidget {
@@ -9,8 +14,14 @@ class homePageCustomer extends StatefulWidget {
 }
 
 class _homePageCustomerState extends State<homePageCustomer> {
+  List<FileModel> files = [];
   @override
   Widget build(BuildContext context) {
+    if (files.isEmpty) {
+      for (var i in documents) {
+        files.add(FileModel.fromJson(i));
+      }
+    }
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -22,14 +33,31 @@ class _homePageCustomerState extends State<homePageCustomer> {
           padding: EdgeInsets.all(8.0),
           child: Icon(Icons.menu),
         ),
-        title: const Text(
-          "Print\n Secure",
+        title: Text(
+          appname,
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                    '#ff6666', 'Cancel', true, ScanMode.DEFAULT);
+                if (barcodeScanRes.isNotEmpty) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => ViewShareDocuments(
+                              file: files.firstWhere((element) =>
+                                  element.id.toString() == barcodeScanRes),
+                              isShared: true,
+                              duration: const Duration(seconds: 15))));
+                }
+              } catch (e) {
+                print('f');
+              }
+            },
             icon: const Icon(
               Icons.qr_code_scanner,
             ),
@@ -37,11 +65,37 @@ class _homePageCustomerState extends State<homePageCustomer> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
         ],
       ),
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 150,
+                  child: LinearProgressIndicator(
+                    value: 0.2,
+                    color: Colors.grey,
+                    minHeight: 10,
+                    valueColor: AlwaysStoppedAnimation(Colors.blueAccent),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text("${((20 / 1024)).toStringAsFixed(2)} % Storage Available")
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
           Container(
             padding: const EdgeInsets.all(6.0),
-            margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
+            margin: const EdgeInsets.symmetric(horizontal: 20),
             height: 80,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -96,10 +150,20 @@ class _homePageCustomerState extends State<homePageCustomer> {
           const SizedBox(
             height: 50,
           ),
+          const Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 5),
+              child: Text(
+                "Uploaded Documents",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
           Container(
             padding: const EdgeInsets.all(6.0),
             margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
-            height: 355,
+            height: 400,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.black),
@@ -109,37 +173,37 @@ class _homePageCustomerState extends State<homePageCustomer> {
                   bottomLeft: Radius.circular(24),
                   bottomRight: Radius.circular(24),
                 )),
-            child: GridView.count(
-              crossAxisCount: 4,
-              children: List<Widget>.generate(16, (index) {
-                return GridTile(
-                  child: Card(
-                      color: const Color.fromARGB(255, 193, 191, 191),
-                      child: Center(
-                        child: Text('Image $index'),
-                      )),
+            child: GridView.builder(
+              itemCount: files.length,
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
+              itemBuilder: (c, index) {
+                final FileModel file = files[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ViewShareDocuments(
+                                file: file,
+                                isShared: false,
+                                duration: const Duration(seconds: 15))));
+                  },
+                  child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(image: NetworkImage(file.url))),
+                  ),
                 );
-              }),
+              },
             ),
           ),
           const SizedBox(
             height: 130,
           ),
-          Row(
-            children: const [
-              Text(
-                "                                        secured by ",
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Print Secure",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.blueGrey),
-              ),
-            ],
-          )
-        ],
+        ]),
       ),
       drawer: const MyDrawer(),
     );

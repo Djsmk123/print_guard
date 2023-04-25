@@ -40,6 +40,11 @@ dependencies:
   #Google sign In
   google_sign_in: ^5.4.1
   firebase_auth: ^3.9.0
+  barcode_widget:
+  barcode: 
+  qr_flutter: ^4.0.0
+  flutter_barcode_scanner: ^2.0.0
+
   
   #Google Icon
   font_awesome_flutter: ^10.2.1
